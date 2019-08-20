@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-version "1.0-SNAPSHOT"
+version "0.1-SNAPSHOT"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -38,10 +38,13 @@ dependencies {
 //    provided "org.grails:grails-plugin-services"
 //    provided "org.grails:grails-plugin-domain-class"
 //    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
-//    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails:grails-plugin-testing"
 //    testCompile "org.grails.plugins:geb"
 //    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
 //    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+    // import utility classes
+    compile 'au.org.ala:ala-cas-client:2.5'
 }
 
 bootRun {
@@ -51,12 +54,12 @@ bootRun {
 // enable if you wish to package this plugin as a standalone application
 bootRepackage.enabled = false
 grailsPublish {
-    websiteUrl = 'http://github.com/AtlasOfLivingAustralia/ala-cors-plugin'
+    websiteUrl = 'https://github.com/AtlasOfLivingAustralia/ala-cors-plugin'
     license {
         name = 'MPL-2.0'
     }
-    issueTrackerUrl = 'http://github.com/AtlasOfLivingAustralia/ala-cors-plugin/issues'
-    vcsUrl = 'http://github.com/AtlasOfLivingAustralia/ala-cors-plugin'
+    issueTrackerUrl = 'https://github.com/AtlasOfLivingAustralia/ala-cors-plugin/issues'
+    vcsUrl = 'https://github.com/AtlasOfLivingAustralia/ala-cors-plugin'
     title = "ALA CORS Plugin"
     desc = "Plugin for adding ALA CORS support to Grails applications that also use ala-auth-plugin"
 }

@@ -63,7 +63,7 @@ CORS configuration is defined for authenticated services and unauthenticated ser
 - ```security.cors.authenticated```
 - ```security.cors.unauthenticated```
 
-CORS parameters available for corsLoggedIn and corsOther:
+CORS parameters available for ```security.cors.authenticated``` and ```security.cors.unauthenticated```:
 
 | Property           | Contents                                            |
 | ------------------ | --------------------------------------------------- |
