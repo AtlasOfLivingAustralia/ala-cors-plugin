@@ -81,6 +81,5 @@ Order of response rules:
 | uriExcludeFilterPattern                |  ANY                   |  ANY      | unauthenticated    |
 | uriFilterPattern                       |  ANY                   |  ALLOWED  | authenticated      |
 | uriFilterPattern                       |  ANY                   |  ANY      | unauthenticated    |
-| uriFilterAuthenticateIfLoggedInPattern |  LOGGED IN             |  ALLOWED  | authenticated      |
-| uriFilterAuthenticateIfLoggedInPattern |  LOGGED IN             |  ANY      | unauthenticated    |
-| uriFilterAuthenticateIfLoggedInPattern |  NOT LOGGED IN         |  ANY      | unauthenticated    |
+| uriFilterAuthenticateIfLoggedInPattern |  ANY                   |  ALLOWED  | authenticated      |
+| uriFilterAuthenticateIfLoggedInPattern |  ANY                   |  ANY      | unauthenticated    |

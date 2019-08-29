@@ -1,17 +1,13 @@
 package au.org.ala.web
 
-import au.org.ala.cas.util.AuthenticationCookieUtils
 import org.springframework.http.HttpHeaders
 import spock.lang.Specification
 
 import javax.servlet.ServletContext
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 
 
 class CasCorsConfigurationSourceSpec extends Specification {
-
-    final static def authCookie = new Cookie(AuthenticationCookieUtils.ALA_AUTH_COOKIE, 'yes')
 
     final static def testCasConfig = [
             security: [
@@ -55,7 +51,7 @@ class CasCorsConfigurationSourceSpec extends Specification {
 
         def casCorsConfigurationSource = new CasCorsConfigurationSource(config, buildServletContext())
 
-        def matchedConfig = casCorsConfigurationSource.getCorsConfiguration(buildRequest(requestUri, cookies))
+        def matchedConfig = casCorsConfigurationSource.getCorsConfiguration(buildRequest(requestUri))
 
         then:
 
@@ -67,19 +63,13 @@ class CasCorsConfigurationSourceSpec extends Specification {
 
         where:
 
-        config     || requestUri                             || cookies      || resultIsLoggedInConfig
-        testConfig || "authorised.ala.org.au/filtered"       || [authCookie] || true
-        testConfig || "unauthorised.org.au/filtered"         || [authCookie] || false
-        testConfig || "authorised.ala.org.au/excluded"       || [authCookie] || false
-        testConfig || "unauthorised.org.au/excluded"         || [authCookie] || false
-        testConfig || "authorised.ala.org.au/onlyifloggedin" || [authCookie] || true
-        testConfig || "unauthorised.org.au/onlyifloggedin"   || [authCookie] || false
-        testConfig || "authorised.ala.org.au/filtered"       || []           || true
-        testConfig || "unauthorised.org.au/filtered"         || []           || false
-        testConfig || "authorised.ala.org.au/excluded"       || []           || false
-        testConfig || "unauthorised.org.au/excluded"         || []           || false
-        testConfig || "authorised.ala.org.au/onlyifloggedin" || []           || false
-        testConfig || "unauthorised.org.au/onlyifloggedin"   || []           || false
+        config     || requestUri                             || resultIsLoggedInConfig
+        testConfig || "authorised.ala.org.au/filtered"       || true
+        testConfig || "unauthorised.org.au/filtered"         || false
+        testConfig || "authorised.ala.org.au/excluded"       || false
+        testConfig || "unauthorised.org.au/excluded"         || false
+        testConfig || "authorised.ala.org.au/onlyifloggedin" || true
+        testConfig || "unauthorised.org.au/onlyifloggedin"   || false
 
     }
 
@@ -103,13 +93,10 @@ class CasCorsConfigurationSourceSpec extends Specification {
         testConfig    || "unauthorised.org.au/filtered"   || testOtherConfig
     }
 
-    def buildRequest(requestUri, cookies) {
+    def buildRequest(requestUri) {
         def request1 = Mock(HttpServletRequest);
         request1.getRequestURI() >> {
             return requestUri
-        }
-        request1.getCookies() >> { ->
-            return cookies
         }
         request1.getHeader(_) >> { key ->
             if (key.get(0) == HttpHeaders.ORIGIN) {

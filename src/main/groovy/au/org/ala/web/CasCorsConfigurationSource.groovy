@@ -1,7 +1,6 @@
 package au.org.ala.web
 
 import au.org.ala.cas.client.UriFilter
-import au.org.ala.cas.util.AuthenticationCookieUtils
 import au.org.ala.cas.util.PatternMatchingUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -47,9 +46,8 @@ import java.util.regex.Pattern
  *   uriExcludeFilterPattern                  ANY                     ANY       corsOther
  *   uriFilterPattern                         ANY                     ALLOWED   corsLoggedIn
  *   uriFilterPattern                         ANY                     ANY       corsOther
- *   uriFilterAuthenticateIfLoggedInPattern   LOGGED IN               ALLOWED   corsLoggedIn
- *   uriFilterAuthenticateIfLoggedInPattern   LOGGED IN               ANY       corsOther
- *   uriFilterAuthenticateIfLoggedInPattern   NOT LOGGED IN           ANY       corsOther
+ *   uriFilterAuthenticateIfLoggedInPattern   ANY                     ALLOWED   corsLoggedIn
+ *   uriFilterAuthenticateIfLoggedInPattern   ANY                     ANY       corsOther
  *
  */
 class CasCorsConfigurationSource implements CorsConfigurationSource {
@@ -153,8 +151,8 @@ class CasCorsConfigurationSource implements CorsConfigurationSource {
                     loggedInConfig.checkOrigin(request.getHeader(HttpHeaders.ORIGIN)) != null) {
                 return loggedInConfig
             } else if (PatternMatchingUtils.matches(requestUri, authOnlyIfLoggedInPatterns) &&
-                    AuthenticationCookieUtils.isUserLoggedIn(request) &&
                     loggedInConfig.checkOrigin(request.getHeader(HttpHeaders.ORIGIN)) != null) {
+                // Cannot do login check because no cookies sent in prelight
                 return loggedInConfig
             } else {
                 return otherConfig
