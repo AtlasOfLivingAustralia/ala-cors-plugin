@@ -78,7 +78,7 @@ class CasCorsConfigurationSourceSpec extends Specification {
 
         def casCorsConfigurationSource = new CasCorsConfigurationSource(config, buildServletContext())
 
-        def matchedConfig = casCorsConfigurationSource.getCorsConfiguration(buildRequest(requestUri, []))
+        def matchedConfig = casCorsConfigurationSource.getCorsConfiguration(buildRequest(requestUri))
 
         then:
 
